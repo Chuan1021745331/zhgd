@@ -16,4 +16,6 @@ public interface EnvironmentService {
 	public Environment getEnvironmentById(int id);
 	//删除
 	public void deleteEnvironmentById(int id);
+	//接收数据
+	public void receive();
 }

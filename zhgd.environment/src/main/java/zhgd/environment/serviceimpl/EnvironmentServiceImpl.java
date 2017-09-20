@@ -41,4 +41,9 @@ public class EnvironmentServiceImpl implements EnvironmentService{
 		environmentRepository.delete(id);
 	}
 
+	@Override
+	public void receive() {
+		
+	}
+
 }

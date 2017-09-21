@@ -28,14 +28,21 @@ public class EnvironmentController {
 		return ResponseResult.ok(environmentService.getRecentEnvironment());
 	}
 	
+	@GetMapping("/allEnvironment")
+	public ResponseResult getAllEnvironment(){
+		return ResponseResult.ok(environmentService.getAllEnvironment());
+	}
+	
+	/*
+	 * 接收数据并存储
+	 */
 	@PostMapping("saveEnvironment")
 	public ResponseResult saveEnvironment(@Validated  Environment environment){
 		
 		//补全信息
 		//存入数据库
-		//environmentService.save(environment);
-		throw new EnvironmentException(ResponseResult.STASTUSCODE_ARGUMENTSERROR,"参数格式错误");
+		environmentService.save(environment);
 		//返回结果
-		//return ResponseResult.ok();
+		return ResponseResult.ok();
 	}
 }

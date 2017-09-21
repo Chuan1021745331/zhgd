@@ -133,6 +133,16 @@ public class Environment {
 	public void setSerialNo(String serialNo) {
 		this.serialNo = serialNo;
 	}
+	@Override
+	public String toString() {
+		return "Environment [id=" + id + ", pm2p5=" + pm2p5 + ", pm10=" + pm10
+				+ ", noise=" + noise + ", windSpeed=" + windSpeed
+				+ ", windDirection=" + windDirection + ", temperature="
+				+ temperature + ", humidity=" + humidity + ", projectCode="
+				+ projectCode + ", recordTime=" + recordTime + ", deviceCode="
+				+ deviceCode + ", sourceId=" + sourceId + ", deviceId="
+				+ deviceId + ", serialNo=" + serialNo + "]";
+	}
 	
 	
 }

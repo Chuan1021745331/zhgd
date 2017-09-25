@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,16 @@ public class EnvironmentController {
 		//存入数据库
 		environmentService.save(environment);
 		//返回结果
+		return ResponseResult.ok();
+	}
+	
+	/*
+	 * 
+	 * 删除
+	 */
+	@GetMapping("/delete/{id}")
+	public ResponseResult deleteEnvironment(@PathVariable int id){
+		environmentService.deleteEnvironmentById(id);
 		return ResponseResult.ok();
 	}
 }

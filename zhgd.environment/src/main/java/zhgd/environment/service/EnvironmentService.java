@@ -18,4 +18,10 @@ public interface EnvironmentService {
 	public void deleteEnvironmentById(int id);
 	//接收数据
 	public void receive();
+	//数据超标，警告
+	public void alert(List<Integer> args);
+	//判断是否超标
+	public boolean isOutSide(Environment environment);
+	//得到超标的参数
+	public List<Integer> getOutSideArgs(Environment environment);
 }

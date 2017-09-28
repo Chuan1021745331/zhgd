@@ -2,10 +2,17 @@ package zhgd.environment.pojo;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
+
+import org.hibernate.annotations.Cascade;
 
 /*
  * 
@@ -18,32 +25,40 @@ public class Environment {
 	private double pm10;				//pm10量程 0--500    单位ug/m^3
 	private double noise;				//噪音强度 量程30-130  单位dB
 	private double windSpeed;			//风速0-70         单位m/s
-	private double  windDirection;			//风向 0-360     单位 °
+	private double  windDirection;		//风向 0-360     单位 °
 	private double temperature;			//温度-40-80   单位 °
 	private double humidity;			//湿度0-100      单位 RH
-	private String projectCode;			//项目唯一编码
 	private String recordTime;			//采集时间
-	private String deviceCode;			//设备物理编号
 	private String sourceId;			//数据来源id
-	private String deviceId;			//设备id
 	private String serialNo;			//序列号
+	private Device device;				//设备
 	
 	public static double PM2P5_MAX=500;
 	public static double PM2P5_MIN=0;
+	public final static int    PM2P5_OUTSIDE=1;	//表示PM2.5超标
+	
 	public static double PM10_MAX=500;
 	public static double PM10_MIN=0;
+	public final static int    PM10_OUTSIDE=2;	//表示PM10超标
+	
 	public static double NOISE_MAX=130;
 	public static double NOISE_MIN=30;
+	public final static int    NOSIE_OUTSIDE=3;	//表示噪音超标
+	
 	public static double WINDDIRECTION_MAX=360;
 	public static double WINDDIRECTION_MIN=0;
 	public static double WINDSPEED_MAX=70;
 	public static double WINDSPEED_MIN=0;
+	public final static int    WINDSPEED_OUTSIDE=4;	//表示风速超标
+	
 	public static double TEMPRATURE_MAX=80;
 	public static double TEMPRATURE_MIN=-40;
-	public static double HUMIDITY_MAX=0;
-	public static double HUMIDITY_MIN=100;
-	public static double BEAM_MAX=800;
-	public static double BEAM_MIN=300;
+	public final static int    TEMPRATURE_OUTSIDE=5;//表示温度超标
+	
+	public static double HUMIDITY_MAX=100;
+	public static double HUMIDITY_MIN=0;
+	public final static int  	 HUMIDITY_OUTSIDE=6;	//表示湿度超标
+
 	
 	@Id
 	@GeneratedValue
@@ -53,11 +68,18 @@ public class Environment {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@Min(value=50,message="pm2.5必须50以上")
 	public double getPm2p5() {
 		return pm2p5;
 	}
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="device_id")
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
+	}
 	public void setPm2p5(double pm2p5) {
 		this.pm2p5 = pm2p5;
 	}
@@ -97,36 +119,21 @@ public class Environment {
 	public void setHumidity(double humidity) {
 		this.humidity = humidity;
 	}
-	public String getProjectCode() {
-		return projectCode;
-	}
-	public void setProjectCode(String projectCode) {
-		this.projectCode = projectCode;
-	}
+
 	public String getRecordTime() {
 		return recordTime;
 	}
 	public void setRecordTime(String recordTime) {
 		this.recordTime = recordTime;
 	}
-	public String getDeviceCode() {
-		return deviceCode;
-	}
-	public void setDeviceCode(String deviceCode) {
-		this.deviceCode = deviceCode;
-	}
+
 	public String getSourceId() {
 		return sourceId;
 	}
 	public void setSourceId(String sourceId) {
 		this.sourceId = sourceId;
 	}
-	public String getDeviceId() {
-		return deviceId;
-	}
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
-	}
+
 	public String getSerialNo() {
 		return serialNo;
 	}
@@ -138,10 +145,9 @@ public class Environment {
 		return "Environment [id=" + id + ", pm2p5=" + pm2p5 + ", pm10=" + pm10
 				+ ", noise=" + noise + ", windSpeed=" + windSpeed
 				+ ", windDirection=" + windDirection + ", temperature="
-				+ temperature + ", humidity=" + humidity + ", projectCode="
-				+ projectCode + ", recordTime=" + recordTime + ", deviceCode="
-				+ deviceCode + ", sourceId=" + sourceId + ", deviceId="
-				+ deviceId + ", serialNo=" + serialNo + "]";
+				+ temperature + ", humidity=" + humidity + ", recordTime="
+				+ recordTime + ", sourceId=" + sourceId + ", serialNo="
+				+ serialNo + ", device=" + device + "]";
 	}
 	
 	
